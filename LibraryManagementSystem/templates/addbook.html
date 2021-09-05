@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}
+Add Books
+{% endblock %}
+{% block content %}
+<section class="hero is-fullheight" style="background-color:#C4FCEF;">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/home" class="navbar-item">
+                            Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <form  method="POST" action="/addbook">
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="book_name"
+                            placeholder="Book Name"
+                            aria-label="Book Name"
+                            aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="author"
+                            placeholder="Author Name"
+                            aria-label="Author Name"
+                            aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="total_pages"
+                            placeholder="Total pages"
+                            aria-label="Total pages"
+                            aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="rating"
+                            placeholder="Rating"
+                            aria-label="Rating"
+                            aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="genre"
+                            placeholder="Genre"
+                            aria-label="Genre"
+                            aria-describedby="basic-addon2">
+                </div>
+                <div class="input-group mb-3">
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="published_date"
+                            placeholder="Published date"
+                            aria-label="Published date"
+                            aria-describedby="basic-addon2">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Book</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+

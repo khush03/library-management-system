@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}
+Welcome to Library Management System!
+{% endblock %}
+{% block content %}
+<section class="hero is-fullheight" style="background-color:#C4FCEF;">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/home" class="navbar-item">
+                            Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <a href="{{ url_for('add_books') }}"><button type="button" class="btn btn-primary">Add book</button></a>
+            <h1>Bookslist</h1>
+              {% for data in bookslist_data %}
+                <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ data['book_name'] }}</h5>
+                    <p class="card-text">{{ data['author'] }}</p>
+                    <a href="{{ url_for('update_book') }}" class="btn btn-primary">Update Book</a>
+                  </div>
+                </div>
+               {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
