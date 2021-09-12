@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+Welcome to Library Management System!
+{% endblock %}
+{% block content %}
+<section class="hero is-fullheight">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
+                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1>BOOKSLIST</h1>
+            <div class="books-list">
+              {% for data in bookslist_data %}
+                    <div class="card book-item">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ data['book_name'] }}</h5>
+                          <p class="card-text">Author: {{ data['author'] }}</p>
+                          <p class="card-text">Rating: {{ data['rating'] }}</p>
+                          <p class="card-text">Genre: {{ data['genre'] }}</p>
+                          <p class="card-text">Total Pages: {{ data['total_pages'] }}</p>
+                          <p class="card-text">Published date: {{ data['published_date'] }}</p>
+                        <a href="{{ url_for('update_book', book_name=data['book_name']) }}" class="btn btn-primary book-action-button">Update Book</a>
+                        {% if data['is_available'] and not data['has_requested'] %}
+                        <a href="{{ url_for('request_issue', book_name=data['book_name']) }}"><button type="button" class="btn btn-primary book-action-button">Request Issue</button></a>
+                        {% endif %}
+                      </div>
+                      <div class="card-footer {{ 'success-background' if data['has_requested'] }}">
+                          {% if data['has_requested'] %}
+                            <p style="color:black">Book already requested</p>
+                          {% endif %}
+                      </div>
+                    </div>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

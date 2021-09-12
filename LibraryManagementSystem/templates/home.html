@@ -3,15 +3,17 @@
 Welcome to Library Management System!
 {% endblock %}
 {% block content %}
-<section class="hero is-fullheight" style="background-color:#C4FCEF;">
+<section class="hero is-fullheight">
     <div class="hero-head">
         <nav class="navbar">
             <div class="container">
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a href="/home" class="navbar-item">
-                            Home
-                        </a>
+                        <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
+                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                        <a href="{{ url_for('add_books') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Add book</button></a>
+                        <a href="{{ url_for('books_list') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Bookslist</button></a>
+                        <a href="{{ url_for('pending_requests') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Pending requests</button></a>
                     </div>
                 </div>
             </div>
@@ -19,17 +21,24 @@ Welcome to Library Management System!
     </div>
     <div class="hero-body">
         <div class="container has-text-centered">
-            <a href="{{ url_for('add_books') }}"><button type="button" class="btn btn-primary">Add book</button></a>
-            <h1>Bookslist</h1>
-              {% for data in bookslist_data %}
+            <form method="post" action="/searchbook">
+                <input type="text" class="form-control search-button" name="book_name" placeholder="Search for a book" aria-label="Bookname" aria-describedby="basic-addon1">
+                <button type="submit" class="btn btn-primary nav-bar-buttons">Submit</button>
+            </form>
+            <div class="container has-text-centered">
+                {% for book in book_list %}
                 <div class="card" style="width: 18rem;">
                   <div class="card-body">
-                    <h5 class="card-title">{{ data['book_name'] }}</h5>
-                    <p class="card-text">{{ data['author'] }}</p>
-                    <a href="{{ url_for('update_book') }}" class="btn btn-primary">Update Book</a>
+                    <h5 class="card-title">{{ book['book_name'] }}</h5>
+                      <p class="card-text">Author: {{ book['author'] }}</p>
+                      <p class="card-text">Rating: {{ book['rating'] }}</p>
+                      <p class="card-text">Genre: {{ book['genre'] }}</p>
+                      <p class="card-text">Total Pages: {{ book['total_pages'] }}</p>
+                      <p class="card-text">Published Date: {{ book['published_date'] }}</p>
                   </div>
                 </div>
                {% endfor %}
+        </div>
         </div>
     </div>
 </section>

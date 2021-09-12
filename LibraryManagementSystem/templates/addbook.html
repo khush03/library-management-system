@@ -3,22 +3,21 @@
 Add Books
 {% endblock %}
 {% block content %}
-<section class="hero is-fullheight" style="background-color:#C4FCEF;">
+<section class="hero is-fullheight">
     <div class="hero-head">
         <nav class="navbar">
             <div class="container">
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a href="/home" class="navbar-item">
-                            Home
-                        </a>
+                        <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
+                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
                     </div>
                 </div>
             </div>
         </nav>
     </div>
     <div class="hero-body">
-        <div class="container has-text-centered">
+        <div class="container has-text-centered add-book-form">
             <form  method="POST" action="/addbook">
                 <div class="input-group mb-3">
                     <input
@@ -74,7 +73,7 @@ Add Books
                             aria-label="Published date"
                             aria-describedby="basic-addon2">
                 </div>
-                <button type="submit" class="btn btn-primary">Add Book</button>
+                <button type="submit" class="btn btn-primary nav-bar-buttons">Add Book</button>
             </form>
         </div>
     </div>

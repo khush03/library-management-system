@@ -1,0 +1,56 @@
+.success-background {
+    background-color: #b8ecb5;
+}
+
+.main-container{
+    background-image: url("/static/images/library-pic.jpeg");
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    object-fit: cover;
+    background-size: cover;
+    overflow-x: scroll;
+}
+
+.nav-bar-buttons{
+    margin: 5px;
+    color: black;
+    background-color: lightblue;
+    border-color: white;
+}
+
+.search-button{
+    width: 50%;
+    margin: auto;
+}
+
+.card-title{
+    text-decoration: underline;
+}
+
+
+.books-list{
+    max-height: 500px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.book-item{
+    width: 250px !important;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.book-action-button{
+    width: 100%;
+    margin: 5px;
+    color: black;
+    background-color: lightblue;
+    border-color: white;
+}
+
+.add-book-form{
+    align-content: center;
+    max-width: 600px;
+}

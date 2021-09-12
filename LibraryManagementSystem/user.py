@@ -1,17 +1,10 @@
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from models import Books, app, db
 
 
-def search_books():
-    book_name_to_be_searched = ""
-
-    return "Search for books"
-
-
-def request_issue():
-    book_name = request.body.get('book_name')
-    username = request.body.get('username')
-    return "Request for Issue"
+# @app.route('/searchbook', methods=['GET', 'POST'])
+# def search_books():
+#     return render_template('searchbook.html')
 
 
 def issued_books():

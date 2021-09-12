@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+Welcome to Library Management System!
+{% endblock %}
+{% block content %}
+<section class="hero is-fullheight">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
+                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            {% if pending_book_requests %}
+                <h1>Pending Book Issue Requests!</h1>
+                  {% for data in pending_book_requests %}
+                    <div class="card" style="width: 18rem;">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ data['book_name'] }}</h5>
+                          <p class="card-text">Id: {{ data['id'] }}</p>
+                          <p class="card-text">Status: {{ data['status'] }}</p>
+                          <p class="card-text">Requested By: {{ data['requested_by'] }}</p>
+                          <p class="card-text">Request Date: {{ data['request_date'] }}</p>
+                          <p class="card-text">Updated On: {{ data['updated_on'] }}</p>
+                          <p class="card-text">Approved By: {{ data['approved_by'] }}</p>
+                          <a href="{{ url_for('issue_books', book_name=data['book_name']) }}" class="btn btn-primary">Approve</a>
+                      </div>
+                    </div>
+                  {% endfor %}
+            {% elif not pending_book_requests %}
+            <h1>No Pending book requests!</h1>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
