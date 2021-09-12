@@ -10,10 +10,16 @@ Welcome to Library Management System!
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
                         <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
-                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
-                        <a href="{{ url_for('add_books') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Add book</button></a>
                         <a href="{{ url_for('books_list') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Bookslist</button></a>
-                        <a href="{{ url_for('pending_requests') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Pending requests</button></a>
+                        {% if current_user.role == 'user' %}
+                        <a href="{{ url_for('book_issue_history') }}"><button type="button" class="btn btn-primary nav-bar-buttons">My Books</button></a>
+                        <a href="{{ url_for('unregister', username=current_user.username) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Log out</button></a>
+                        {% if current_user.role == 'admin' %}
+                            <a href="{{ url_for('add_books') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Add book</button></a>
+                            <a href="{{ url_for('pending_requests') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Pending requests</button></a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -35,7 +41,22 @@ Welcome to Library Management System!
                       <p class="card-text">Genre: {{ book['genre'] }}</p>
                       <p class="card-text">Total Pages: {{ book['total_pages'] }}</p>
                       <p class="card-text">Published Date: {{ book['published_date'] }}</p>
+                      {% if current_user.role == 'admin' %}
+                        <a href="{{ url_for('update_book', book_name=book['book_name']) }}" class="btn btn-primary book-action-button">Update Book</a>
+                      {% endif %}
+                      {% for data in bookslist_data %}
+                          {% if data['is_available'] and not data['has_requested'] %}
+                            <a href="{{ url_for('request_issue', book_name=book['book_name']) }}"><button type="button" class="btn btn-primary book-action-button">Request Issue</button></a>
+                          {% endif %}
+                      {% endfor %}
                   </div>
+                    {% for data in bookslist_data %}
+                        <div class="card-footer {{ 'success-background' if data['has_requested'] }}">
+                              {% if data['has_requested'] %}
+                                <p style="color:black">Book already requested</p>
+                              {% endif %}
+                        </div>
+                    {% endfor %}
                 </div>
                {% endfor %}
         </div>

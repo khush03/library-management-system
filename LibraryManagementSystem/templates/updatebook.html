@@ -9,9 +9,9 @@ Update Books
             <div class="container">
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a href="/home" class="navbar-item">
-                            Home
-                        </a>
+                        <a href="/home" class="navbar-item">Home</a>
+                        <a href="{{ url_for('logout') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Log out</button></a>
+                        <a href="{{ url_for('unregister', username=current_user.username) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
                     </div>
                 </div>
             </div>
@@ -81,7 +81,7 @@ Update Books
                             aria-label="Published date"
                             aria-describedby="basic-addon2">
                 </div>
-                <button type="submit" class="btn btn-primary">Update Book</button>
+               <button type="submit" class="btn btn-primary">Update Book</button>
             </form>
         </div>
     </div>

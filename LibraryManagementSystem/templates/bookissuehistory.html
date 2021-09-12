@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "form_macro.html" import render_field %}
+{% block title %}
+Library Management System
+{% endblock %}
+{% block content %}
+<section class="hero is-fullheight">
+ <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
+                        <a href="{{ url_for('logout') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Log out</button></a>
+                        <a href="{{ url_for('unregister', username=current_user.username) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Book Issued History</h3>
+    <div class="books-list">
+        {% for book_issue_data in bookissued %}
+       <div class="card book-item" style="width: 18rem;">
+          <div class="card-body">
+              <h5 class="card-title">Status: {{ book_issue_data['status'] }}</h5>
+              <p class="card-text">Id: {{ book_issue_data['id'] }}</p>
+              <p class="card-text">Book Name: {{ book_issue_data['book_name'] }}</p>
+              <p class="card-text">Requested By: {{ book_issue_data['requested_by'] }}</p>
+              <p class="card-text">Request Date: {{ book_issue_data['request_date'] }}</p>
+              <p class="card-text">Updated On: {{ book_issue_data['updated_on'] }}</p>
+              <p class="card-text">Approved By: {{ book_issue_data['approved_by'] }}</p>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</section>
+{% endblock %}

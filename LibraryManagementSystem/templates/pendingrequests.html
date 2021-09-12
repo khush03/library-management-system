@@ -10,7 +10,8 @@ Welcome to Library Management System!
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
                         <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
-                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                        <a href="{{ url_for('logout') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Log out</button></a>
+                        <a href="{{ url_for('unregister', username=current_user.username) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
                     </div>
                 </div>
             </div>
@@ -21,7 +22,7 @@ Welcome to Library Management System!
             {% if pending_book_requests %}
                 <h1>Pending Book Issue Requests!</h1>
                   {% for data in pending_book_requests %}
-                    <div class="card" style="width: 18rem;">
+                    <div class="card book-item" style="width: 18rem;">
                       <div class="card-body">
                           <h5 class="card-title">{{ data['book_name'] }}</h5>
                           <p class="card-text">Id: {{ data['id'] }}</p>

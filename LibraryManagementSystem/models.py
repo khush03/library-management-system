@@ -1,7 +1,10 @@
 from datetime import date
 import os
 from flask import Flask, session
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from flask_session import Session
 
 app = Flask(__name__)
@@ -41,13 +44,13 @@ class Books(db.Model):
         return '<book_name {}>'.format(self.book_name)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'user_data'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False)
     contact = db.Column(db.String(12), nullable=False)
     email = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
     address = db.Column(db.String(80), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
@@ -59,17 +62,12 @@ class User(db.Model):
         self.address = address
         self.role = "user"
 
-    def is_active(self):
-        return True
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
-    def get_id(self):
-        return self.email
-
-    def is_authenticated(self):
-        return self.authenticated
-
-    def is_anonymous(self):
-        return False
+    @staticmethod
+    def get_by_username(username):
+        return User.query.filter_by(username=username).first()
 
     def __repr__(self):
         return '<username {}>'.format(self.username)
@@ -90,5 +88,5 @@ class BookIssueRecord(db.Model):
         self.book_name = book_name
         self.request_date = date.today()
         self.requested_by = requested_by
-        self.approved_by = None
+        self.approved_by = 'admin'
         self.updated_on = date.today()

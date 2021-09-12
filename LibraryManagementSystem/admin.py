@@ -1,11 +1,11 @@
 from datetime import date
-from flask import request, jsonify, render_template, redirect, flash, session
-from flask_login import login_required
+from flask import request, render_template, redirect
+from flask_login import login_required, current_user
 from models import Books, app, db, BookIssueRecord
 
 
-@login_required
 @app.route('/addbook', methods=['GET', 'POST'])
+@login_required
 def add_books():
     if request.method == 'POST':
         book_name = request.form.get('book_name')
@@ -27,7 +27,7 @@ def add_books():
 def get_books():
     all_books = Books.query.all()
     book_list = []
-    book_issue_record = get_request_issue_record_by_username(session['username'])
+    book_issue_record = get_request_issue_record_by_username(current_user.username)
     for book in all_books:
         curr_book = {'book_name': book.book_name, 'author': book.author, 'total_pages': book.total_pages,
                      'genre': book.genre, 'rating': book.rating, 'published_date': book.published_date,
@@ -37,15 +37,15 @@ def get_books():
     return book_list
 
 
-@login_required
 @app.route('/bookslist', methods=['GET', 'POST'])
+@login_required
 def books_list():
     bookslist_data = get_books()
     return render_template('bookslist.html', bookslist_data=bookslist_data)
 
 
-@login_required
 @app.route('/updatebook/<book_name>', methods=['GET', 'POST'])
+@login_required
 def update_book(book_name):
     if request.method == "POST":
         new_obj = {
@@ -71,10 +71,10 @@ def update_book(book_name):
         return render_template('updatebook.html', book_info=output_book_data_from_book_name)
 
 
-@login_required
 @app.route("/requestissue/<book_name>", methods=['GET', 'POST'])
+@login_required
 def request_issue(book_name):
-    book_issue_record = BookIssueRecord(book_name, session['username'])
+    book_issue_record = BookIssueRecord(book_name, current_user.username)
     db.session.add(book_issue_record)
     db.session.commit()
     return redirect('http://localhost:5000/home')
@@ -90,8 +90,8 @@ def get_request_issue_record_by_username(username):
     return book_issue_list
 
 
-@login_required
 @app.route("/requests", methods=['GET', 'POST'])
+@login_required
 def pending_requests():
     book_entries_list = []
     pending_book_requests = BookIssueRecord.query.filter_by(status="INITIATED").all()
@@ -109,8 +109,8 @@ def pending_requests():
     return render_template('pendingrequests.html', pending_book_requests=book_entries_list)
 
 
-@login_required
 @app.route('/issuebook/<book_name>', methods=['GET', 'POST'])
+@login_required
 def issue_books(book_name):
     approved_book_detail = BookIssueRecord.query.filter_by(book_name=book_name).first()
     issued_book_detail = {
@@ -119,7 +119,7 @@ def issue_books(book_name):
     }
     issued_book_detail_status = {
         'status': 'Approved',
-        'approved_by': 'Admin'
+        'approved_by': 'admin'
     }
     Books.query.filter_by(book_name=book_name).update(issued_book_detail)
     BookIssueRecord.query.filter_by(book_name=book_name).update(issued_book_detail_status)
@@ -127,8 +127,26 @@ def issue_books(book_name):
     return redirect('http://localhost:5000/requests')
 
 
+@app.route('/mybooks', methods=['GET', 'POST'])
 @login_required
+def book_issue_history():
+    book_issue_history_list = []
+    book_issue_history = BookIssueRecord.query.filter_by(requested_by=current_user.username).all()
+    for book_history in book_issue_history:
+        book_issue_history_list.append({
+            'id': book_history.id,
+            'book_name': book_history.book_name,
+            'request_date': book_history.request_date,
+            'requested_by': book_history.requested_by,
+            'approved_by': book_history.approved_by,
+            'updated_on': book_history.updated_on,
+            'status': book_history.status
+        })
+    return render_template('bookissuehistory.html', bookissued=book_issue_history_list)
+
+
 @app.route('/searchbook', methods=['GET', 'POST'])
+@login_required
 def search_books():
     if request.method == 'POST':
         book_searched = request.form.get('book_name').lower()

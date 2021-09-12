@@ -10,7 +10,8 @@ Welcome to Library Management System!
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
                         <a href="/home"><button type="button" class="btn btn-primary nav-bar-buttons">Home</button></a>
-                        <a href="{{ url_for('unregister', username=session['username']) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
+                        <a href="{{ url_for('logout') }}"><button type="button" class="btn btn-primary nav-bar-buttons">Log out</button></a>
+                        <a href="{{ url_for('unregister', username=current_user.username) }}"><button type="button" class="btn btn-primary nav-bar-buttons">Unregister</button></a>
                     </div>
                 </div>
             </div>
@@ -29,8 +30,10 @@ Welcome to Library Management System!
                           <p class="card-text">Genre: {{ data['genre'] }}</p>
                           <p class="card-text">Total Pages: {{ data['total_pages'] }}</p>
                           <p class="card-text">Published date: {{ data['published_date'] }}</p>
-                        <a href="{{ url_for('update_book', book_name=data['book_name']) }}" class="btn btn-primary book-action-button">Update Book</a>
-                        {% if data['is_available'] and not data['has_requested'] %}
+                          {% if current_user.role == 'admin' %}
+                            <a href="{{ url_for('update_book', book_name=data['book_name']) }}" class="btn btn-primary book-action-button">Update Book</a>
+                          {% endif %}
+                          {% if data['is_available'] and current_user.role == 'user' and not data['has_requested'] %}
                         <a href="{{ url_for('request_issue', book_name=data['book_name']) }}"><button type="button" class="btn btn-primary book-action-button">Request Issue</button></a>
                         {% endif %}
                       </div>
