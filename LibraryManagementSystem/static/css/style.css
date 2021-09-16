@@ -41,19 +41,19 @@
 }
 
 
-.books-list{
+.cards-list{
     max-height: 500px;
     display: grid;
     grid-template-columns: auto auto auto auto;
 }
 
-.book-item{
+.card-item{
     width: 250px !important;
     min-width: 200px;
     margin: 10px;
 }
 
-.book-action-button{
+.card-item-button{
     width: 100%;
     margin: 5px;
     color: black;

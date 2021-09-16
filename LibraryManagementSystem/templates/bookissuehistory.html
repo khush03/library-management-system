@@ -20,9 +20,9 @@ Library Management System
     </div>
 <div class="column is-4 is-offset-4">
     <h3 class="title">Book Issued History</h3>
-    <div class="books-list">
+    <div class="cards-list">
         {% for book_issue_data in bookissued %}
-       <div class="card book-item" style="width: 18rem;">
+       <div class="card card-item" style="width: 18rem;">
           <div class="card-body">
               <h5 class="card-title">Status: {{ book_issue_data['status'] }}</h5>
               <p class="card-text">Id: {{ book_issue_data['id'] }}</p>

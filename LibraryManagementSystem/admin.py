@@ -1,7 +1,7 @@
 from datetime import date
 from flask import request, render_template, redirect
 from flask_login import login_required, current_user
-from models import Books, app, db, BookIssueRecord
+from models import Books, app, db, BookIssueRecord, User
 
 
 @app.route('/addbook', methods=['GET', 'POST'])
@@ -167,3 +167,37 @@ def search_books():
         else:
             return render_template('home.html')
     return render_template('home.html')
+
+
+@app.route('/manageusers', methods=['GET'])
+@login_required
+def get_users():
+    users_list = []
+    db_user_list = User.query.all()
+    for user in db_user_list:
+        users_list.append({
+            'id': user.id,
+            'username': user.username,
+            'contact': user.contact,
+            'email': user.email,
+            'address': user.address,
+            'role': user.role
+        })
+    return render_template('manageusers.html', users=users_list)
+
+
+@app.route('/manageusers/<id>', methods=['GET', 'POST'])
+@login_required
+def make_admin(id):
+    User.query.filter_by(id=id).update({'role': 'admin'})
+    db.session.commit()
+    return redirect('http://localhost:5000/manageusers')
+
+
+@app.route('/manageusers/<id>', methods=['GET', 'POST'])
+@login_required
+def remove_user(id):
+    User.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect('http://localhost:5000/manageusers')
+

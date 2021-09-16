@@ -20,9 +20,9 @@ Welcome to Library Management System!
     <div class="hero-body">
         <div class="container has-text-centered">
             <h1>BOOKSLIST</h1>
-            <div class="books-list">
+            <div class="cards-list">
               {% for data in bookslist_data %}
-                    <div class="card book-item">
+                    <div class="card card-item">
                       <div class="card-body">
                           <h5 class="card-title">{{ data['book_name'] }}</h5>
                           <p class="card-text">Author: {{ data['author'] }}</p>
@@ -31,10 +31,10 @@ Welcome to Library Management System!
                           <p class="card-text">Total Pages: {{ data['total_pages'] }}</p>
                           <p class="card-text">Published date: {{ data['published_date'] }}</p>
                           {% if current_user.role == 'admin' %}
-                            <a href="{{ url_for('update_book', book_name=data['book_name']) }}" class="btn btn-primary book-action-button">Update Book</a>
+                            <a href="{{ url_for('update_book', book_name=data['book_name']) }}" class="btn btn-primary card-item-button">Update Book</a>
                           {% endif %}
                           {% if data['is_available'] and current_user.role == 'user' and not data['has_requested'] %}
-                        <a href="{{ url_for('request_issue', book_name=data['book_name']) }}"><button type="button" class="btn btn-primary book-action-button">Request Issue</button></a>
+                        <a href="{{ url_for('request_issue', book_name=data['book_name']) }}"><button type="button" class="btn btn-primary card-item-button">Request Issue</button></a>
                         {% endif %}
                       </div>
                       <div class="card-footer {{ 'success-background' if data['has_requested'] }}">

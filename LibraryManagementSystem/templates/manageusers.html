@@ -19,27 +19,28 @@ Welcome to Library Management System!
     </div>
     <div class="hero-body">
         <div class="container has-text-centered">
-            {% if pending_book_requests %}
-                <h1>Pending Book Issue Requests!</h1>
+            {% if users %}
+                <h1>Users List</h1>
              <div class="cards-list">
-                  {% for data in pending_book_requests %}
+                  {% for user in users %}
                     <div class="card card-item" style="width: 18rem;">
                       <div class="card-body">
-                          <h5 class="card-title">{{ data['book_name'] }}</h5>
-                          <p class="card-text">Id: {{ data['id'] }}</p>
-                          <p class="card-text">Status: {{ data['status'] }}</p>
-                          <p class="card-text">Requested By: {{ data['requested_by'] }}</p>
-                          <p class="card-text">Request Date: {{ data['request_date'] }}</p>
-                          <p class="card-text">Updated On: {{ data['updated_on'] }}</p>
-                          <p class="card-text">Approved By: {{ data['approved_by'] }}</p>
-                          <a href="{{ url_for('issue_books', book_name=data['book_name']) }}" class="btn btn-primary">Approve</a>
+                          <h5 class="card-text">Username: {{ user['username'] }}</h5>
+                          <p class="card-text">Contact: {{ user['contact'] }}</p>
+                          <p class="card-text">Email: {{ user['email'] }}</p>
+                          <p class="card-text">Address: {{ user['address'] }}</p>
+                          <p class="card-text">Role: {{ user['role'] }}</p>
+                          {% if user['role'] == 'user' %}
+                            <a href="{{ url_for('make_admin', id=user['id']) }}" class="btn btn-primary card-item-button">Make Admin</a>
+                            <a href="{{ url_for('remove_user', id=user['id']) }}" class="btn btn-primary card-item-button">Remove User</a>
+                          {% endif %}
                       </div>
                     </div>
                   {% endfor %}
-             </div>
-            {% elif not pending_book_requests %}
-            <h1>No Pending book requests!</h1>
-            {% endif %}
+                    {% elif not users %}
+                        <h1>No Users Registered</h1>
+                    {% endif %}
+            </div>
         </div>
     </div>
 </section>
